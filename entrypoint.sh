@@ -17,7 +17,9 @@ if [ ! -f "$WG_CONF" ]; then
         *) echo "==> [ERROR] 不支持的架构: $ARCH"; exit 1 ;;
     esac
 
-    wget -qO wgcf "https://github.com/ViRb3/wgcf/releases/download/v2.2.30/wgcf_2.2.30_linux_${WGCF_ARCH}"
+    WGCF_VER=$(curl -sL https://api.github.com/repos/ViRb3/wgcf/releases/latest | grep '"tag_name"' | sed 's/.*"v\(.*\)".*/\1/')
+    echo "==> [MicroWARP] 检测到最新 wgcf 版本: v${WGCF_VER}"
+    wget -qO wgcf "https://github.com/ViRb3/wgcf/releases/download/v${WGCF_VER}/wgcf_${WGCF_VER}_linux_${WGCF_ARCH}"
     chmod +x wgcf
 
     echo "==> [MicroWARP] 正在向 CF 注册设备..."
